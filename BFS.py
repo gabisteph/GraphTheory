@@ -1,15 +1,12 @@
-# Classe que reprsenta o grafo em que está sendo realizado a busca:
+from collections import deque
+
 class Grafo:
     def __init__(self):
         self.grafo = {}
 
-# adicionar vértices ao grafo
-
     def adicionar_vertice(self, vertice):
         if vertice not in self.grafo:
             self.grafo[vertice] = []
-
-# adicionar aresta aos vertices do grafo
 
     def adicionar_aresta(self, origem, destino):
         if origem in self.grafo:
@@ -17,17 +14,12 @@ class Grafo:
         else:
             self.grafo[origem] = [destino]
 
-# A busca em profundidade em implementada na função dfs e criando a pilha contendo o vértice inicial
-
-    def dfs(self, vertice_inicial):
+    def bfs(self, vertice_inicial):
         visitados = set()
-        pilha = [vertice_inicial]
-# loop enquanto a pilha não estiver vazia. 
-# A cada iteração, removemos o vértice do topo da pilha
-# verificamos se ele já foi visitado
-# Se não tiver sido visitado, marcamos o vértice como visitado, imprimimos seu valor e adicionamos seus vizinhos à pilha.
-        while pilha:
-            vertice = pilha.pop()
+        fila = deque([vertice_inicial])
+
+        while fila:
+            vertice = fila.popleft()
 
             if vertice not in visitados:
                 visitados.add(vertice)
@@ -35,9 +27,7 @@ class Grafo:
 
                 if vertice in self.grafo:
                     for vizinho in self.grafo[vertice]:
-                        pilha.append(vizinho)
-
-
+                        fila.append(vizinho)
 
 # Uso com entrada do usuário
 grafo = Grafo()
@@ -57,5 +47,5 @@ for i in range(m):
 
 vertice_inicial = int(input("Digite o valor do vértice inicial para a busca em profundidade: "))
 
-print("Resultado da busca em profundidade:")
-grafo.dfs(vertice_inicial)
+print("Busca em Largura (BFS):")
+grafo.bfs(vertice_inicial)
